@@ -1,0 +1,26 @@
+
+Dear {{htmlescape var=$vendor.getName()}},<br/>
+You have a new order from NursingUniforms.net <br/>
+<br/>
+
+Customer: {{htmlescape var=$vendor.getClientName()}}<br/>
+Account Number: {{htmlescape var=$vendor.getClientId()}}<br/>
+<br/>
+Payment Method: Please bill our credit card on file for the order. <br/>
+
+{{layout handle="vendor_email_items" items=$items}}<br/>
+
+=====================================================<br/>
+
+Shipping Address: <br/>
+{{var order.getShippingAddress().format('html')}}<br/>
+Shipping Method: {{var order.getShippingDescription()}}<br/>
+Please notify: sales@nursinguniforms.net when the order is shipped. <br/>
+
+If you have any further queries or issues please don't hesitate to contact us. <br/>
+<br/>
+<br/>
+Kind Regards,<br/>
+Lisa Ross<br/>
+Nursing Uniforms<br/>
+tel. 248.626.2129<br/>

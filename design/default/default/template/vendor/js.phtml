@@ -1,0 +1,11 @@
+<script type="text/javascript">
+	Validation.add('mailbox', 'Specify list of emails sperated by "," or ";" with no trailing spaces or commas.', function(v) {
+		return   Validation.get('IsEmpty').test(v) || /^[A-Z0-9\._%-]+@[A-Z0-9\.-]+\.[A-Z]{2,4}(?:(?:[\s,;]+[A-Z0-9\._%-]+@[A-Z0-9\.-]+))?$/i.test(v);
+	});
+	var productTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
+	function setSettings(urlTemplate, vendorType) {
+        var template = new Template(urlTemplate, productTemplateSyntax);
+		//return;
+        setLocation(template.evaluate({vendor_type:$F(vendorType)}));
+    }
+</script>

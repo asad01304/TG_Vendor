@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <TG_Vendor>
+            <version>0.1.0</version>
+        </TG_Vendor>
+    </modules>
+    <admin>
+        <routers>
+			<vendor>
+				<use>admin</use>
+				<args>
+					<module>TG_Vendor</module>
+					<frontName>vendor</frontName>
+				</args>
+			</vendor>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<catalog>
+				<children>
+					<vendor module="vendor">
+						<title>Manage Vendors</title>
+						<sort_order>4</sort_order>
+						<action>vendor/adminhtml_vendor</action>
+					</vendor>
+				</children>
+			</catalog>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<TG_Vendor>
+							<title>Vendor Module</title>
+							<sort_order>10</sort_order>
+						</TG_Vendor>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<vendor>
+					<file>vendor.xml</file>
+				</vendor>
+				
+			</updates>
+		</layout>
+    </adminhtml>  
+	<frontend>
+		<layout>
+			<updates>
+                <vendor module="TG_Vendor">
+                    <file>vendor.xml</file>
+                </vendor>
+            </updates>
+        </layout>
+    </frontend> 
+    <global>
+        <models>
+            <vendor>
+                <class>TG_Vendor_Model</class>
+                <resourceModel>vendor_mysql4</resourceModel>
+            </vendor>
+            <vendor_mysql4>
+                <class>TG_Vendor_Model_Mysql4</class>
+                <entities>
+                    <vendor>
+                        <table>vendor</table>
+                    </vendor>
+					<product>
+						<table>product_vendor</table>
+					</product>
+					<log>
+						<table>vendor_notification_log</table>
+					</log>
+                </entities>
+            </vendor_mysql4>
+        </models>
+        <resources>
+            <vendor_setup>
+                <setup>
+                    <module>TG_Vendor</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </vendor_setup>
+            <vendor_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </vendor_write>
+            <vendor_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </vendor_read>
+        </resources>
+        <blocks>
+            <vendor>
+                <class>TG_Vendor_Block</class>
+            </vendor>
+        </blocks>
+        <helpers>
+            <vendor>
+                <class>TG_Vendor_Helper</class>
+            </vendor>
+        </helpers>
+		
+		<!--events>
+			<checkout_onepage_controller_success_action>
+				<observers>
+					<module>
+						<type>singleton</type>
+						<class>TG_Vendor_Model_Action</class>
+						<method>notifyVendors</method>
+					</module>
+				</observers>
+			</checkout_onepage_controller_success_action> 
+		</events-->
+
+		<template>
+			<email>
+				<notify_vendor_on_ordersubmit translate="label" module="vendor">
+					<label>Vendor notification on order submission</label>
+					<file>sales/notify_vendor_on_ordersubmit.html</file>
+					<type>html</type>
+				</notify_vendor_on_ordersubmit>
+			</email>
+		</template>
+    </global>
+	<default>
+		<sales>
+			<order_notify>
+				<vendor_template>notify_vendor_on_ordersubmit</vendor_template>
+			</order_notify>
+		</sales>
+		<vendor>
+			<email_notification>
+				<name>Notify Vendor By Email</name>
+				<class>vendor/emailnotify</class>
+				<fields>
+					<vendor_email>
+						<label>Vendor Email</label>
+						<type>textarea</type>
+						<required>1</required>
+						<class>mailbox</class>
+					</vendor_email>
+					<client_name>
+						<label>Client Name</label>
+						<type>text</type>
+						<required>1</required>
+					</client_name>
+					<client_id>
+						<label>Client Id</label>
+						<type>text</type>
+						<required>1</required>
+					</client_id>
+					<cc_to>
+						<label>CC To</label>
+						<type>textarea</type>
+						<required>0</required>
+						<class>mailbox</class>
+					</cc_to>
+				</fields>
+			</email_notification>
+
+			<ftp_notification>
+				<name>Notify By FTP CSV</name>
+				<class>vendor/ftpnotify</class>
+				<fields>
+				
+					<customer_id>
+						<label>Customer ID</label>
+						<type>text</type>
+						<required>1</required>
+					</customer_id>
+					
+					<ftp_host>
+						<label>FTP Host Address</label>
+						<type>text</type>
+						<required>1</required>
+					</ftp_host>
+					
+					<ftp_user>
+						<label>FTP User</label>
+						<type>text</type>
+						<required>1</required>
+					</ftp_user>
+					
+					<ftp_password>
+						<label>FTP Password</label>
+						<type>password</type>
+						<required>1</required>
+					</ftp_password>
+					
+					<file_name>
+						<label>File Name</label>
+						<type>text</type>
+						<required>1</required>
+					</file_name>
+					
+					<remote_path>
+						<label>Remote Path</label>
+						<type>text</type>
+						<required>1</required>
+					</remote_path>
+					
+					<client_name>
+						<label>Client Name</label>
+						<type>text</type>
+						<required>1</required>
+					</client_name>
+					
+					<error_log_email>
+						<label>Error Log Email</label>
+						<type>text</type>
+						<required>1</required>
+					</error_log_email>
+					<admin_email>
+						<label>Admin Email</label>
+						<type>text</type>
+						<required>0</required>
+						<class>mailbox</class>
+					</admin_email>
+				</fields>
+			</ftp_notification>
+			
+		</vendor>
+	</default>
+</config>
